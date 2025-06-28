@@ -1,4 +1,5 @@
 import { ReduxProvider } from '@/store/providers'
+import { NextAuthProvider } from '@/lib/session-provider'
 import './globals.css'
 
 export default function RootLayout({
@@ -9,9 +10,11 @@ export default function RootLayout({
     return (
         <html lang="en">
         <body>
-        <ReduxProvider>
-            {children}
-        </ReduxProvider>
+        <NextAuthProvider>
+            <ReduxProvider>
+                {children}
+            </ReduxProvider>
+        </NextAuthProvider>
         </body>
         </html>
     )
