@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add NextAuth integration with session provider and middleware">
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/login/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/register/register.tsx" afterDir="false" />
+    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add login and registration pages with NextAuth session handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/lib/auth-options.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/lib/auth-options.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751106139315</updated>
-      <workItem from="1751106140356" duration="5342000" />
+      <workItem from="1751106140356" duration="7499000" />
     </task>
     <task id="LOCAL-00001" summary="Initialize Next.js project with essential configuration files, dependencies, and setup">
       <option name="closed" value="true" />
@@ -117,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751110640119</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add login and registration pages with NextAuth session handling">
+      <option name="closed" value="true" />
+      <created>1751112864008</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1751112864008</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,6 +135,7 @@
     <MESSAGE value="Refactor layout to include Redux provider and add Redux setup files" />
     <MESSAGE value="Add NextAuth integration with Google and Credentials providers" />
     <MESSAGE value="Add NextAuth integration with session provider and middleware" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add NextAuth integration with session provider and middleware" />
+    <MESSAGE value="Add login and registration pages with NextAuth session handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add login and registration pages with NextAuth session handling" />
   </component>
 </project>
