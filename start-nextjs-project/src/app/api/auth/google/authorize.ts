@@ -11,6 +11,7 @@ export const api = createApi({
     }),
     tagTypes: ['User', 'Auth'],
     endpoints: (builder) => ({
+        // Google OAuth endpoints
         getGoogleAuthUrl: builder.query<{ authorization_url: string }, string[]>({
             query: (scopes) => ({
                 url: '/auth/google/authorize',
@@ -34,7 +35,7 @@ export const api = createApi({
 })
 
 export const {
-    useLazyGetGoogleAuthUrlQuery,  // 👈 Не забравяй lazy за бутона
+    useGetGoogleAuthUrlQuery,
     useGoogleCallbackMutation,
     useGetProfileQuery
 } = api

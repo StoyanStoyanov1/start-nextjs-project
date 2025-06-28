@@ -3,6 +3,7 @@
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { GoogleLoginButton } from '@/components/GoogleLoginButton'
 
 export default function LoginPage() {
     const { data: session } = useSession()
@@ -12,7 +13,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (session) {
-            router.push('/')
+            router.push('/dashboard')
         }
     }, [session, router])
 
@@ -21,7 +22,7 @@ export default function LoginPage() {
         await signIn('credentials', {
             email,
             password,
-            callbackUrl: '/'
+            callbackUrl: '/dashboard'
         })
     }
 
@@ -29,6 +30,13 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center">
             <div className="max-w-md w-full space-y-8">
                 <h2 className="text-3xl font-bold text-center">Sign In</h2>
+
+                {/* Google Login */}
+                <GoogleLoginButton />
+
+                <div className="text-center text-gray-500">or</div>
+
+                {/* Credentials Login */}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="email"
@@ -48,9 +56,9 @@ export default function LoginPage() {
                     />
                     <button
                         type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
                     >
-                        Sign In
+                        Sign In with Email
                     </button>
                 </form>
             </div>
