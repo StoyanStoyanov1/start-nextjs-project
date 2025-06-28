@@ -1,9 +1,10 @@
+// src/store/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+        baseUrl: '/api/backend',
         prepareHeaders: (headers, { getState }) => {
             headers.set('content-type', 'application/json')
             return headers
@@ -18,10 +19,9 @@ export const api = createApi({
             }),
         }),
 
-        googleCallback: builder.mutation<string, { code: string; state: string }>({
+        googleCallback: builder.query<any, { code: string; state: string }>({
             query: (params) => ({
                 url: '/auth/google/callback',
-                method: 'POST',
                 params
             }),
         }),
@@ -34,7 +34,7 @@ export const api = createApi({
 })
 
 export const {
-    useLazyGetGoogleAuthUrlQuery,  // 👈 Не забравяй lazy за бутона
-    useGoogleCallbackMutation,
+    useLazyGetGoogleAuthUrlQuery,
+    useLazyGoogleCallbackQuery,
     useGetProfileQuery
 } = api

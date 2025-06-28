@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add dashboard page and enhance login form with credentials support">
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/api/auth/google/authorize.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/components/GoogleLoginButton.tsx" afterDir="false" />
+    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add Google OAuth integration and update login flow with Google login button">
+      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/auth/success/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start-nextjs-project/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/next.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/app/api/auth/[...nextauth]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/lib/auth-options.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/store/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,6 +64,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/auth" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -80,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751106139315</updated>
-      <workItem from="1751106140356" duration="14240000" />
+      <workItem from="1751106140356" duration="18743000" />
     </task>
     <task id="LOCAL-00001" summary="Initialize Next.js project with essential configuration files, dependencies, and setup">
       <option name="closed" value="true" />
@@ -146,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751120663724</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add Google OAuth integration and update login flow with Google login button">
+      <option name="closed" value="true" />
+      <created>1751139672057</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1751139672057</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +171,7 @@
     <MESSAGE value="Add login and registration pages with NextAuth session handling" />
     <MESSAGE value="Update authOptions to temporarily enable test credentials and adjust workspace metadata" />
     <MESSAGE value="Add dashboard page and enhance login form with credentials support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add dashboard page and enhance login form with credentials support" />
+    <MESSAGE value="Add Google OAuth integration and update login flow with Google login button" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Google OAuth integration and update login flow with Google login button" />
   </component>
 </project>
