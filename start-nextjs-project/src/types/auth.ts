@@ -1,8 +1,11 @@
 export interface User {
     id: string;
     email: string;
-    name: string;
+    name?: string;
     avatar?: string;
+    is_active: boolean;
+    is_superuser: boolean;
+    is_verified: boolean;
 }
 
 export interface AuthState {
@@ -15,6 +18,8 @@ export interface AuthState {
     registrationStatus: 'idle' | 'loading' | 'success' | 'error';
     emailVerificationStatus: 'idle' | 'loading' | 'success' | 'error';
     verificationMessage: string | null;
+    tokenVerificationStatus: 'idle' | 'loading' | 'success' | 'error';
+    verificationToken: string | null;
 }
 export interface AuthFieldConfig {
   name: string;
@@ -45,6 +50,7 @@ export interface AuthFormProps {
   children?: React.ReactNode;
   className?: string;
   isLoading?: boolean;
+  initialData?: AuthFormData;
 }
 
 export interface AuthFormValidationErrors {
@@ -70,4 +76,20 @@ export interface EmailVerificationResponse {
 
 export interface IEmailVerificationService {
     requestVerifyToken(email: string): Promise<string>;
+}
+
+export interface TokenVerificationRequest {
+    token: string;
+}
+
+export interface TokenVerificationResponse {
+    id: string;
+    email: string;
+    is_active: boolean;
+    is_superuser: boolean;
+    is_verified: boolean;
+}
+
+export interface ITokenVerification {
+    verifyToken(token: string): Promise<TokenVerificationResponse>;
 }

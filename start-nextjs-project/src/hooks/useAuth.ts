@@ -7,9 +7,16 @@ import {
     handleGoogleCallbackAction,
     getUserProfileAction,
     logoutAction,
-    requestEmailVerificationAction
+    requestEmailVerificationAction,
+    verifyTokenAction
 } from '@/store/thunks/authThunks';
-import { clearError, resetRegistrationStatus, resetEmailVerificationStatus } from '@/store/slices/authSlice';
+import { 
+    clearError, 
+    resetRegistrationStatus, 
+    resetEmailVerificationStatus,
+    resetTokenVerificationStatus,
+    setVerificationToken
+} from '@/store/slices/authSlice';
 import type { RegisterRequest } from '@/types/register';
 import type { GoogleCallbackData } from '@/types/auth';
 
@@ -83,6 +90,24 @@ export const useAuth = () => {
         dispatch(resetEmailVerificationStatus());
     }, [dispatch]);
 
+    // Verify token
+    const verifyToken = useCallback(
+        async (token: string) => {
+            return await dispatch(verifyTokenAction(token));
+        },
+        [dispatch]
+    );
+
+    // Set verification token
+    const setVerificationTokenValue = useCallback((token: string) => {
+        dispatch(setVerificationToken(token));
+    }, [dispatch]);
+
+    // Reset token verification status
+    const resetTokenVerificationStatusValue = useCallback(() => {
+        dispatch(resetTokenVerificationStatus());
+    }, [dispatch]);
+
     return {
         ...authState,
         register,
@@ -93,6 +118,9 @@ export const useAuth = () => {
         clearAuthError,
         resetRegStatus,
         requestEmailVerification,
-        resetEmailVerificationStatus
+        resetEmailVerificationStatus,
+        verifyToken,
+        setVerificationToken: setVerificationTokenValue,
+        resetTokenVerificationStatus: resetTokenVerificationStatusValue
     };
 };

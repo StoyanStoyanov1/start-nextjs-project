@@ -41,6 +41,22 @@ export const EMAIL_VERIFICATION_FIELDS: AuthFieldConfig[] = [
   }
 ];
 
+export const TOKEN_VERIFICATION_FIELDS: AuthFieldConfig[] = [
+  {
+    name: 'token',
+    type: 'text',
+    label: 'Verification Token',
+    placeholder: 'Enter verification token',
+    required: true,
+    validation: {
+      custom: (value: string) => {
+        if (!value.trim()) return 'Verification token is required';
+        return null;
+      }
+    }
+  }
+];
+
 export const SIGNUP_FIELDS: AuthFieldConfig[] = [
   {
     name: 'email',

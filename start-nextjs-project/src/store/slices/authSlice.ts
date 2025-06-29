@@ -6,7 +6,8 @@ import {
     getUserProfileAction,
     logoutAction,
     registerUserAction,
-    requestEmailVerificationAction
+    requestEmailVerificationAction,
+    verifyTokenAction
 } from '@/store/thunks/authThunks';
 
 const initialState: AuthState = {
@@ -18,7 +19,9 @@ const initialState: AuthState = {
     googleAuthUrl: null,
     registrationStatus: 'idle',
     emailVerificationStatus: 'idle',
-    verificationMessage: null
+    verificationMessage: null,
+    tokenVerificationStatus: 'idle',
+    verificationToken: null
 };
 
 const authSlice = createSlice({
@@ -53,6 +56,13 @@ const authSlice = createSlice({
         resetEmailVerificationStatus: (state) => {
             state.emailVerificationStatus = 'idle';
             state.verificationMessage = null;
+        },
+        resetTokenVerificationStatus: (state) => {
+            state.tokenVerificationStatus = 'idle';
+            state.verificationToken = null;
+        },
+        setVerificationToken: (state, action: PayloadAction<string>) => {
+            state.verificationToken = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -166,8 +176,40 @@ const authSlice = createSlice({
                 state.emailVerificationStatus = 'error';
                 state.error = action.payload;
             });
+
+        // Verify Token
+        builder
+            .addCase(verifyTokenAction.pending, (state) => {
+                state.isLoading = true;
+                state.tokenVerificationStatus = 'loading';
+                state.error = null;
+            })
+            .addCase(verifyTokenAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.tokenVerificationStatus = 'success';
+                state.user = {
+                    ...state.user,
+                    ...action.payload,
+                    name: state.user?.name // Preserve name if it exists
+                };
+                state.error = null;
+            })
+            .addCase(verifyTokenAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.tokenVerificationStatus = 'error';
+                state.error = action.payload;
+            });
     },
 });
 
-export const { clearError, setToken, clearAuth, initializeAuth, resetRegistrationStatus, resetEmailVerificationStatus } = authSlice.actions;
+export const { 
+    clearError, 
+    setToken, 
+    clearAuth, 
+    initializeAuth, 
+    resetRegistrationStatus, 
+    resetEmailVerificationStatus,
+    resetTokenVerificationStatus,
+    setVerificationToken
+} = authSlice.actions;
 export default authSlice.reducer;

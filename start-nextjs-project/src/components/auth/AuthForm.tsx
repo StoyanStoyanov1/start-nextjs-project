@@ -13,7 +13,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   subtitle,
   children,
   className = '',
-  isLoading: externalLoading
+  isLoading: externalLoading,
+  initialData
 }) => {
   const {
     formData,
@@ -21,7 +22,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
     isLoading: internalLoading,
     handleFieldChange,
     handleSubmit
-  } = useAuthForm(fields);
+  } = useAuthForm(fields, initialData);
 
   // Use external loading state if provided, otherwise use internal loading state
   const isLoading = externalLoading !== undefined ? externalLoading : internalLoading;

@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/lib/api';
 import { Urls } from '@/constants/urls';
-import type { GoogleCallbackData, AuthResponse, EmailVerificationRequest } from '@/types/auth';
+import type { 
+    GoogleCallbackData, 
+    AuthResponse, 
+    EmailVerificationRequest, 
+    TokenVerificationResponse 
+} from '@/types/auth';
 import { RegisterRequest, RegisterResponse } from '@/types/register';
 import { AuthService } from '@/services/authService';
 
@@ -129,6 +134,28 @@ export const requestEmailVerificationAction = createAsyncThunk<
             return rejectWithValue(
                 error.message || 'Failed to send verification email'
             );
+        }
+    }
+);
+
+/**
+ * Verifies a token to confirm user's email address
+ */
+export const verifyTokenAction = createAsyncThunk<
+    TokenVerificationResponse,
+    string,
+    { rejectValue: string }
+>(
+    'auth/verifyToken',
+    async (token, { rejectWithValue }) => {
+        try {
+            console.log('Verifying token:', token);
+            const response = await AuthService.verifyToken(token);
+            console.log('Token verification successful:', response);
+            return response;
+        } catch (error: any) {
+            console.error('Token verification failed:', error);
+            return rejectWithValue(error.message || 'Token verification failed');
         }
     }
 );

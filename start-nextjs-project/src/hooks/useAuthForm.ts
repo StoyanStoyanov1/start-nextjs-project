@@ -1,10 +1,14 @@
 import { useState, useCallback } from 'react';
 import { AuthFormData, AuthFieldConfig, AuthFormValidationErrors } from '@/types/auth';
 
-export const useAuthForm = (fields: AuthFieldConfig[]) => {
-  const [formData, setFormData] = useState<AuthFormData>(() =>
-    fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
-  );
+export const useAuthForm = (fields: AuthFieldConfig[], initialData?: AuthFormData) => {
+  const [formData, setFormData] = useState<AuthFormData>(() => {
+    // Start with empty values for all fields
+    const emptyData = fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {});
+
+    // Override with initialData if provided
+    return initialData ? { ...emptyData, ...initialData } : emptyData;
+  });
   const [errors, setErrors] = useState<AuthFormValidationErrors>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,10 +82,12 @@ export const useAuthForm = (fields: AuthFieldConfig[]) => {
   }, [formData, validateForm]);
 
   const resetForm = useCallback(() => {
-    setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+    // Reset to initial data or empty values
+    const emptyData = fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {});
+    setFormData(initialData ? { ...emptyData, ...initialData } : emptyData);
     setErrors({});
     setIsLoading(false);
-  }, [fields]);
+  }, [fields, initialData]);
 
   return {
     formData,
