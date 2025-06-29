@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add success page for Google OAuth callback and configure backend API rewrite">
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/constants/urls.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/hooks/redux.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/hooks/useAuth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/lib/api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/selectors/authSelectors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/slices/authSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/thunks/authThunks.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start-nextjs-project/src/types/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/auth/success/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/auth/success/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/app/(protected)/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/app/(protected)/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/components/GoogleLoginButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/components/GoogleLoginButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/store/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-nextjs-project/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start-nextjs-project/src/store/store.ts" afterDir="false" />
-    </list>
+    <list default="true" id="e4c1ab9d-4ad0-4ad2-9072-8852968debd4" name="Changes" comment="Add user registration flow with form validation, Redux state management, and API integration" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,30 +13,30 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="Python Script" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "StoyanStoyanov1"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;StoyanStoyanov1&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/StoyanStoyanov1/start-nextjs-project.git",
-    "accountId": "fac9224b-baf8-4fa0-a1fb-68785b05e214"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/StoyanStoyanov1/start-nextjs-project.git&quot;,
+    &quot;accountId&quot;: &quot;fac9224b-baf8-4fa0-a1fb-68785b05e214&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2z8IBkMEJMdc1fqbmuSluffHCSZ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -68,7 +49,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/stenly/Desktop/DHS-PORTAL-WEB/server",
+    "last_opened_file_path": "/home/stenly/Downloads/client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,10 +57,17 @@
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "/home/stenly/WebstormProjects/newProject/start-nextjs-project/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/start-nextjs-project/src/app/auth" />
+      <recent name="$PROJECT_DIR$/start-nextjs-project/src/app" />
       <recent name="$PROJECT_DIR$/start-nextjs-project/src/app/(auth)/auth" />
     </key>
   </component>
@@ -179,11 +167,40 @@
       <option name="project" value="LOCAL" />
       <updated>1751144099083</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Refactor auth thunk and error handling, update API configuration for credentials, and enhance Google OAuth integration">
+      <option name="closed" value="true" />
+      <created>1751191980543</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1751191980543</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add user registration flow with form validation, Redux state management, and API integration">
+      <option name="closed" value="true" />
+      <created>1751214664930</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1751214664930</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add user registration flow with form validation, Redux state management, and API integration">
+      <option name="closed" value="true" />
+      <created>1751215405670</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1751215405670</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/start-nextjs-project/next.config.js" />
+      </list>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initialize Next.js project with essential configuration files, dependencies, and setup" />
@@ -195,6 +212,9 @@
     <MESSAGE value="Add dashboard page and enhance login form with credentials support" />
     <MESSAGE value="Add Google OAuth integration and update login flow with Google login button" />
     <MESSAGE value="Add success page for Google OAuth callback and configure backend API rewrite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add success page for Google OAuth callback and configure backend API rewrite" />
+    <MESSAGE value="Refactor auth flow to use Redux for state management and improve Google login integration" />
+    <MESSAGE value="Refactor auth thunk and error handling, update API configuration for credentials, and enhance Google OAuth integration" />
+    <MESSAGE value="Add user registration flow with form validation, Redux state management, and API integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add user registration flow with form validation, Redux state management, and API integration" />
   </component>
 </project>

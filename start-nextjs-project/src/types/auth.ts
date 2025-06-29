@@ -14,7 +14,39 @@ export interface AuthState {
     googleAuthUrl: string | null;
     registrationStatus: 'idle' | 'loading' | 'success' | 'error';
 }
+export interface AuthFieldConfig {
+  name: string;
+  type: 'text' | 'email' | 'password';
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  validation?: {
+    minLength?: number;
+    maxLength?: number;
+    pattern?: RegExp;
+    custom?: (value: string) => string | null;
+  };
+}
 
+export interface AuthFormData {
+  [key: string]: string;
+}
+
+export interface AuthFormProps {
+  mode: 'signin' | 'signup';
+  fields: AuthFieldConfig[];
+  onSubmit: (data: AuthFormData) => Promise<void> | void;
+  submitText?: string;
+  loadingText?: string;
+  title?: string;
+  subtitle?: string;
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export interface AuthFormValidationErrors {
+  [key: string]: string;
+}
 export interface GoogleCallbackData {
     code: string;
     state: string;
