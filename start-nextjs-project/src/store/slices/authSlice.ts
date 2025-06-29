@@ -56,7 +56,7 @@ const authSlice = createSlice({
             })
             .addCase(getGoogleAuthUrlAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload as string;
+                state.error = action.payload;
             });
 
         // Handle Google Callback
@@ -74,7 +74,7 @@ const authSlice = createSlice({
             })
             .addCase(handleGoogleCallbackAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload as string;
+                state.error = action.payload;
                 state.isAuthenticated = false;
             });
 
@@ -90,7 +90,7 @@ const authSlice = createSlice({
             })
             .addCase(getUserProfileAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload as string;
+                state.error = action.payload;
             });
 
         // Logout
@@ -111,6 +111,8 @@ const authSlice = createSlice({
                 state.user = null;
                 state.token = null;
                 state.isAuthenticated = false;
+                // Store the error
+                state.error = action.payload;
             });
     },
 });

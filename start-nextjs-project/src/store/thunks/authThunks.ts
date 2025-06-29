@@ -29,7 +29,7 @@ export const handleGoogleCallbackAction = createAsyncThunk<
     'auth/handleGoogleCallback',
     async (callbackData, { rejectWithValue }) => {
         try {
-            const response = await api.post(Urls.auth.googleCallback, null, {
+            const response = await api.get(Urls.auth.googleCallback, {
                 params: {
                     code: callbackData.code,
                     state: callbackData.state

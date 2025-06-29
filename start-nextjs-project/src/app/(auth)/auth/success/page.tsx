@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { handleGoogleCallbackAction, clearError } from '@/store/slices/authSlice';
+import { handleGoogleCallbackAction } from '@/store/thunks/authThunks';
+import { clearError } from '@/store/slices/authSlice';
 
 export default function AuthSuccessPage() {
     const searchParams = useSearchParams();
@@ -31,7 +32,7 @@ export default function AuthSuccessPage() {
                 }, 2000);
 
             } catch (error) {
-                console.error('Callback error:', error);
+                // Set status to error to display the error UI
                 setStatus('error');
             }
         };
@@ -60,7 +61,11 @@ export default function AuthSuccessPage() {
                     <p className="text-gray-600 mb-4">Something went wrong during authentication.</p>
                     {error && (
                         <div className="bg-red-50 border border-red-200 rounded p-4 mb-4">
-                            <p className="text-sm text-red-800">{error}</p>
+                            <p className="text-sm text-red-800">
+                                {typeof error === 'object' 
+                                    ? (error.detail || JSON.stringify(error)) 
+                                    : error}
+                            </p>
                         </div>
                     )}
                     <button
