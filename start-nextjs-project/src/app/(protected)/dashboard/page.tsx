@@ -1,24 +1,47 @@
 'use client'
 
-import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function DashboardPage() {
-    const { data: session, status } = useSession()
-    const router = useRouter()
+    const router = useRouter();
+    const {
+        user,
+        isAuthenticated,
+        isLoading,
+        logout,
+        getUserProfile
+    } = useAuth();
 
     useEffect(() => {
-        if (status === 'loading') return // Still loading
-        if (!session) router.push('/login')
-    }, [session, status, router])
+        if (!isLoading && !isAuthenticated) {
+            router.push('/login');
+        }
+    }, [isAuthenticated, isLoading, router]);
 
-    if (status === 'loading') {
-        return <div>Loading...</div>
+    useEffect(() => {
+        if (isAuthenticated && !user) {
+            getUserProfile();
+        }
+    }, [isAuthenticated, user, getUserProfile]);
+
+    const handleLogout = async () => {
+        try {
+            await logout().unwrap();
+            router.push('/login');
+        } catch (error) {
+            console.error('Logout error:', error);
+            router.push('/login');
+        }
+    };
+
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
-    if (!session) {
-        return null
+    if (!isAuthenticated) {
+        return null;
     }
 
     return (
@@ -30,17 +53,18 @@ export default function DashboardPage() {
                             Dashboard
                         </h1>
                         <p className="text-gray-600 mb-4">
-                            Welcome back, {session.user?.name || session.user?.email}!
+                            Welcome back, {user?.name || user?.email}!
                         </p>
                         <button
-                            onClick={() => signOut({ callbackUrl: '/login' })}
-                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={handleLogout}
+                            disabled={isLoading}
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400"
                         >
-                            Sign Out
+                            {isLoading ? 'Signing out...' : 'Sign Out'}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }

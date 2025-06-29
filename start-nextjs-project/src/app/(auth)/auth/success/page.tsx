@@ -1,57 +1,45 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useLazyGoogleCallbackQuery } from '@/store/api'
+import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { handleGoogleCallbackAction, clearError } from '@/store/slices/authSlice';
 
 export default function AuthSuccessPage() {
-    const searchParams = useSearchParams()
-    const router = useRouter()
-    const [googleCallback, { isLoading }] = useLazyGoogleCallbackQuery()
-    const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing')
-    const [errorDetails, setErrorDetails] = useState<string>('')
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
+    const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
 
     useEffect(() => {
         const processCallback = async () => {
-            const code = searchParams.get('code')
-            const state = searchParams.get('state')
-
-            console.log('Callback params:', { code, state }) // Debug
+            const code = searchParams.get('code');
+            const state = searchParams.get('state');
 
             if (!code || !state) {
-                setStatus('error')
-                setErrorDetails('Missing code or state parameters')
-                return
+                setStatus('error');
+                return;
             }
 
             try {
-                const result = await googleCallback({ code, state }).unwrap()
-
-                console.log('Backend response:', result)
-
-                setStatus('success')
+                await dispatch(handleGoogleCallbackAction({ code, state })).unwrap();
+                setStatus('success');
 
                 setTimeout(() => {
-                    router.push('/dashboard')
-                }, 2000)
+                    router.push('/dashboard');
+                }, 2000);
 
-            } catch (error: any) {
-                console.error('Full callback error:', error)
-                setStatus('error')
-
-                // По-детайлно error handling
-                if (error.status === 'PARSING_ERROR') {
-                    setErrorDetails(`Backend returned: ${error.data}`)
-                } else if (error.originalStatus) {
-                    setErrorDetails(`Backend error ${error.originalStatus}: ${error.data || 'Unknown error'}`)
-                } else {
-                    setErrorDetails(JSON.stringify(error))
-                }
+            } catch (error) {
+                console.error('Callback error:', error);
+                setStatus('error');
             }
-        }
+        };
 
-        processCallback()
-    }, [searchParams, googleCallback, router])
+        // Clear any previous errors
+        dispatch(clearError());
+        processCallback();
+    }, [searchParams, dispatch, router]);
 
     if (status === 'processing' || isLoading) {
         return (
@@ -61,18 +49,20 @@ export default function AuthSuccessPage() {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                 </div>
             </div>
-        )
+        );
     }
 
-    if (status === 'error') {
+    if (status === 'error' || error) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center max-w-lg">
                     <h2 className="text-2xl font-bold text-red-600 mb-4">Login Failed</h2>
                     <p className="text-gray-600 mb-4">Something went wrong during authentication.</p>
-                    <div className="bg-red-50 border border-red-200 rounded p-4 mb-4">
-                        <p className="text-sm text-red-800">{errorDetails}</p>
-                    </div>
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 rounded p-4 mb-4">
+                            <p className="text-sm text-red-800">{error}</p>
+                        </div>
+                    )}
                     <button
                         onClick={() => router.push('/login')}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -81,7 +71,7 @@ export default function AuthSuccessPage() {
                     </button>
                 </div>
             </div>
-        )
+        );
     }
 
     return (
@@ -91,5 +81,5 @@ export default function AuthSuccessPage() {
                 <p className="text-gray-600">Redirecting to dashboard...</p>
             </div>
         </div>
-    )
+    );
 }
