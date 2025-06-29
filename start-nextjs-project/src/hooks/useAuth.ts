@@ -1,68 +1,82 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from './redux';
+import { RootState } from '@/store/store';
 import {
+    registerUserAction,
     getGoogleAuthUrlAction,
     handleGoogleCallbackAction,
     getUserProfileAction,
-    logoutAction,
-    clearError,
-    selectAuth,
-    selectUser,
-    selectIsAuthenticated,
-    selectIsLoading,
-    selectAuthError
-} from '@/store';
+    logoutAction
+} from '@/store/thunks/authThunks';
+import { clearError, resetRegistrationStatus } from '@/store/slices/authSlice';
+import type { RegisterRequest } from '@/types/register';
+import type { GoogleCallbackData } from '@/types/auth';
 
+/**
+ * Custom hook за управление на автентикацията
+ */
 export const useAuth = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch<any>();
+    const authState = useSelector((state: RootState) => state.auth);
 
-    // Selectors
-    const auth = useAppSelector(selectAuth);
-    const user = useAppSelector(selectUser);
-    const isAuthenticated = useAppSelector(selectIsAuthenticated);
-    const isLoading = useAppSelector(selectIsLoading);
-    const error = useAppSelector(selectAuthError);
+    // Регистрация на потребител
+    const register = useCallback(
+        async (userData: RegisterRequest) => {
+            return await dispatch(registerUserAction(userData));
+        },
+        [dispatch]
+    );
 
-    // Actions
+    // Логин с Google
     const getGoogleAuthUrl = useCallback(
-        (scopes: string[] = ['email']) => {
-            return dispatch(getGoogleAuthUrlAction(scopes));
+        async (scopes: string[] = ['email']) => {
+            return await dispatch(getGoogleAuthUrlAction(scopes));
         },
         [dispatch]
     );
 
+    // Обработка на callback от Google
     const handleGoogleCallback = useCallback(
-        (callbackData: { code: string; state: string }) => {
-            return dispatch(handleGoogleCallbackAction(callbackData));
+        async (callbackData: GoogleCallbackData) => {
+            return await dispatch(handleGoogleCallbackAction(callbackData));
         },
         [dispatch]
     );
 
-    const getUserProfile = useCallback(() => {
-        return dispatch(getUserProfileAction());
-    }, [dispatch]);
+    // Получаване на профил на потребител
+    const getUserProfile = useCallback(
+        async () => {
+            return await dispatch(getUserProfileAction());
+        },
+        [dispatch]
+    );
 
-    const logout = useCallback(() => {
-        return dispatch(logoutAction());
-    }, [dispatch]);
+    // Изход от системата
+    const logout = useCallback(
+        async () => {
+            return await dispatch(logoutAction());
+        },
+        [dispatch]
+    );
 
+    // Изчистване на грешки
     const clearAuthError = useCallback(() => {
         dispatch(clearError());
     }, [dispatch]);
 
-    return {
-        // State
-        auth,
-        user,
-        isAuthenticated,
-        isLoading,
-        error,
+    // Нулиране на статуса на регистрацията
+    const resetRegStatus = useCallback(() => {
+        dispatch(resetRegistrationStatus());
+    }, [dispatch]);
 
-        // Actions
+    return {
+        ...authState,
+        register,
         getGoogleAuthUrl,
         handleGoogleCallback,
         getUserProfile,
         logout,
         clearAuthError,
+        resetRegStatus
     };
 };

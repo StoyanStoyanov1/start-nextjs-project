@@ -4,7 +4,8 @@ import {
     getGoogleAuthUrlAction,
     handleGoogleCallbackAction,
     getUserProfileAction,
-    logoutAction
+    logoutAction,
+    registerUserAction
 } from '@/store/thunks/authThunks';
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
     error: null,
     googleAuthUrl: null,
+    registrationStatus: 'idle'
 };
 
 const authSlice = createSlice({
@@ -41,6 +43,9 @@ const authSlice = createSlice({
                 state.token = token;
                 state.isAuthenticated = true;
             }
+        },
+        resetRegistrationStatus: (state) => {
+            state.registrationStatus = 'idle';
         }
     },
     extraReducers: (builder) => {
@@ -114,8 +119,28 @@ const authSlice = createSlice({
                 // Store the error
                 state.error = action.payload;
             });
+
+                    // Register User
+                    builder
+            .addCase(registerUserAction.pending, (state) => {
+                state.isLoading = true;
+                state.registrationStatus = 'loading';
+                state.error = null;
+            })
+            .addCase(registerUserAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.registrationStatus = 'success';
+                state.error = null;
+                // Не сетваме потребителя автоматично, тъй като може да има изискване за верификация на имейла
+                // Или логин след регистрация
+            })
+            .addCase(registerUserAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.registrationStatus = 'error';
+                state.error = action.payload;
+            });
     },
 });
 
-export const { clearError, setToken, clearAuth, initializeAuth } = authSlice.actions;
+export const { clearError, setToken, clearAuth, initializeAuth, resetRegistrationStatus } = authSlice.actions;
 export default authSlice.reducer;

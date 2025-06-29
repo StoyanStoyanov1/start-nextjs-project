@@ -33,7 +33,7 @@ api.interceptors.response.use(
             // Handle unauthorized access
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('authToken');
-                window.location.href = '/login';
+                window.location.href = '/sing-in';
             }
         }
         return Promise.reject(error);

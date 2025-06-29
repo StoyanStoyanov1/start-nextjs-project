@@ -2,6 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/lib/api';
 import { Urls } from '@/constants/urls';
 import type { GoogleCallbackData, AuthResponse } from '@/types/auth';
+import { RegisterRequest, RegisterResponse } from '@/types/register';
+import { AuthService } from '@/services/authService';
 
 export const getGoogleAuthUrlAction = createAsyncThunk(
     'auth/getGoogleAuthUrl',
@@ -84,6 +86,27 @@ export const logoutAction = createAsyncThunk(
                 error.response?.data ||
                 error.message ||
                 'Logout failed'
+            );
+        }
+    }
+);
+
+/**
+ * Регистрира нов потребител в системата
+ */
+export const registerUserAction = createAsyncThunk<
+    RegisterResponse,
+    RegisterRequest,
+    { rejectValue: string }
+>(
+    'auth/registerUser',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await AuthService.register(userData);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.message || 'Регистрацията се провали'
             );
         }
     }

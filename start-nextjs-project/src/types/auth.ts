@@ -12,6 +12,7 @@ export interface AuthState {
     isAuthenticated: boolean;
     error: string | object | null;
     googleAuthUrl: string | null;
+    registrationStatus: 'idle' | 'loading' | 'success' | 'error';
 }
 
 export interface GoogleCallbackData {

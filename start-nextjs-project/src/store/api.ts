@@ -30,7 +30,7 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             // Handle unauthorized access
             localStorage.removeItem('authToken');
-            window.location.href = '/login';
+            window.location.href = '/sing-in';
         }
         return Promise.reject(error);
     }
