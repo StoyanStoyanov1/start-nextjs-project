@@ -92,7 +92,7 @@ export const logoutAction = createAsyncThunk(
 );
 
 /**
- * Регистрира нов потребител в системата
+ * Registers a new user in the system
  */
 export const registerUserAction = createAsyncThunk<
     RegisterResponse,
@@ -106,7 +106,7 @@ export const registerUserAction = createAsyncThunk<
             return response;
         } catch (error: any) {
             return rejectWithValue(
-                error.message || 'Регистрацията се провали'
+                error.message || 'Registration failed'
             );
         }
     }

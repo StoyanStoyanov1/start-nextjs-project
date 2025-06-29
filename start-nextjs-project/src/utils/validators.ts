@@ -1,6 +1,6 @@
 /**
- * @param email имейл адрес за валидация
- * @returns true ако имейлът е валиден, false в противен случай
+ * @param email email address to validate
+ * @returns true if the email is valid, false otherwise
  */
 export const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -8,25 +8,25 @@ export const validateEmail = (email: string): boolean => {
 };
 
 /**
- * Валидира парола
- * @param password парола за валидация
- * @returns обект с резултат от валидацията и съобщение за грешка, ако има такава
+ * Validates password
+ * @param password password to validate
+ * @returns object with validation result and error message if any
  */
 export const validatePassword = (password: string): { isValid: boolean; message?: string } => {
     if (!password) {
-        return { isValid: false, message: 'Паролата е задължителна' };
+        return { isValid: false, message: 'Password is required' };
     }
 
     if (password.length < 8) {
-        return { isValid: false, message: 'Паролата трябва да бъде поне 8 символа' };
+        return { isValid: false, message: 'Password must be at least 8 characters' };
     }
 
-    // Може да добавите и други валидации при нужда
+    // You can add other validations if needed
     return { isValid: true };
 };
 
 /**
- * Интерфейс за резултат от валидация
+ * Interface for validation result
  */
 export interface ValidationResult {
     isValid: boolean;
@@ -34,9 +34,9 @@ export interface ValidationResult {
 }
 
 /**
- * Валидира данни за регистрация
- * @param data данни за регистрация
- * @returns резултат от валидацията
+ * Validates registration data
+ * @param data registration data
+ * @returns validation result
  */
 export const validateRegistrationData = (data: {
     email: string;
@@ -45,26 +45,26 @@ export const validateRegistrationData = (data: {
 }): ValidationResult => {
     const errors: Record<string, string> = {};
 
-    // Валидация на имейл
+    // Email validation
     if (!data.email) {
-        errors.email = 'Имейлът е задължителен';
+        errors.email = 'Email is required';
     } else if (!validateEmail(data.email)) {
-        errors.email = 'Моля, въведете валиден имейл адрес';
+        errors.email = 'Please enter a valid email address';
     }
 
-    // Валидация на парола
+    // Password validation
     if (!data.password) {
-        errors.password = 'Паролата е задължителна';
+        errors.password = 'Password is required';
     } else {
         const passwordValidation = validatePassword(data.password);
         if (!passwordValidation.isValid) {
-            errors.password = passwordValidation.message || 'Невалидна парола';
+            errors.password = passwordValidation.message || 'Invalid password';
         }
     }
 
-    // Валидация на потвърждение на паролата
+    // Confirm password validation
     if (data.password !== data.confirmPassword) {
-        errors.confirmPassword = 'Паролите не съвпадат';
+        errors.confirmPassword = 'Passwords do not match';
     }
 
     return {

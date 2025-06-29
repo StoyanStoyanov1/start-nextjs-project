@@ -131,8 +131,8 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.registrationStatus = 'success';
                 state.error = null;
-                // Не сетваме потребителя автоматично, тъй като може да има изискване за верификация на имейла
-                // Или логин след регистрация
+                // We don't set the user automatically as there might be email verification requirements
+                // or login after registration
             })
             .addCase(registerUserAction.rejected, (state, action) => {
                 state.isLoading = false;

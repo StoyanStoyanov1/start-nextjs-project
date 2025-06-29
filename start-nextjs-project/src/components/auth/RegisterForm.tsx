@@ -7,23 +7,23 @@ import { validateRegistrationData } from '@/utils/validators';
 import Link from 'next/link';
 
 /**
- * Компонент за форма за регистрация на потребители
+ * Registration form component
  */
 export const RegisterForm: React.FC = () => {
     const router = useRouter();
     const { register, registrationStatus, error, clearAuthError, resetRegStatus } = useAuth();
 
-    // Локално състояние на формата
+    // Form local state
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: ''
     });
 
-    // Локално състояние за грешки при валидация
+    // Validation errors local state
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
-    // Изчистване на състоянието при размонтиране на компонента
+    // Clear state when component unmounts
     useEffect(() => {
         return () => {
             clearAuthError();
@@ -31,33 +31,33 @@ export const RegisterForm: React.FC = () => {
         };
     }, [clearAuthError, resetRegStatus]);
 
-    // Обработка на промените в полетата на формата
+    // Handle form field changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
 
-        // Изчистване на грешка за полето, ако има такава
+        // Clear field error if exists
         if (validationErrors[name]) {
             setValidationErrors(prev => ({ ...prev, [name]: '' }));
         }
     };
 
-    // Обработка на изпращането на формата
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Изчистване на предишни грешки
+        // Clear previous errors
         clearAuthError();
         setValidationErrors({});
 
-        // Валидиране на данните
+        // Validate data
         const validation = validateRegistrationData(formData);
         if (!validation.isValid) {
             setValidationErrors(validation.errors);
             return;
         }
 
-        // Изпращане на заявка за регистрация
+        // Send registration request
         const result = await register({
             email: formData.email,
             password: formData.password,
@@ -66,8 +66,7 @@ export const RegisterForm: React.FC = () => {
             is_verified: false
         });
 
-        // При успех можем да пренасочим към страница за вход
-        // или да покажем съобщение за успешна регистрация
+        // On success, redirect to login page or show success message
         if (result.meta.requestStatus === 'fulfilled') {
             setTimeout(() => {
                 router.push('/login?registered=true');
@@ -77,13 +76,13 @@ export const RegisterForm: React.FC = () => {
 
     return (
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Регистрация</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">Registration</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Поле за имейл */}
+                {/* Email field */}
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium mb-1">
-                        Имейл
+                        Email
                     </label>
                     <input
                         type="email"
@@ -99,10 +98,10 @@ export const RegisterForm: React.FC = () => {
                     )}
                 </div>
 
-                {/* Поле за парола */}
+                {/* Password field */}
                 <div>
                     <label htmlFor="password" className="block text-sm font-medium mb-1">
-                        Парола
+                        Password
                     </label>
                     <input
                         type="password"
@@ -118,10 +117,10 @@ export const RegisterForm: React.FC = () => {
                     )}
                 </div>
 
-                {/* Поле за потвърждение на паролата */}
+                {/* Confirm password field */}
                 <div>
                     <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
-                        Потвърждаване на паролата
+                        Confirm Password
                     </label>
                     <input
                         type="password"
@@ -137,35 +136,35 @@ export const RegisterForm: React.FC = () => {
                     )}
                 </div>
 
-                {/* Показване на грешка от API */}
+                {/* Display API error */}
                 {error && (
                     <div className="text-red-500 text-sm p-2 bg-red-50 rounded">
-                        {typeof error === 'string' ? error : 'Регистрацията се провали'}
+                        {typeof error === 'string' ? error : 'Registration failed'}
                     </div>
                 )}
 
-                {/* Показване на успешно съобщение */}
+                {/* Display success message */}
                 {registrationStatus === 'success' && (
                     <div className="text-green-500 text-sm p-2 bg-green-50 rounded">
-                        Регистрацията е успешна! Пренасочване към страницата за вход...
+                        Registration successful! Redirecting to login page...
                     </div>
                 )}
 
-                {/* Бутон за изпращане */}
+                {/* Submit button */}
                 <button
                     type="submit"
                     disabled={registrationStatus === 'loading'}
                     className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:opacity-50 transition-colors"
                 >
-                    {registrationStatus === 'loading' ? 'Създаване на акаунт...' : 'Регистрация'}
+                    {registrationStatus === 'loading' ? 'Creating account...' : 'Register'}
                 </button>
             </form>
 
-            {/* Линк към страницата за вход */}
+            {/* Link to login page */}
             <div className="mt-4 text-center text-sm">
-                <span>Вече имате акаунт? </span>
+                <span>Already have an account? </span>
                 <Link href="/login" className="text-blue-500 hover:underline">
-                    Вход
+                    Login
                 </Link>
             </div>
         </div>

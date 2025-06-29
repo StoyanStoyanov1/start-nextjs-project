@@ -13,13 +13,13 @@ import type { RegisterRequest } from '@/types/register';
 import type { GoogleCallbackData } from '@/types/auth';
 
 /**
- * Custom hook за управление на автентикацията
+ * Custom hook for authentication management
  */
 export const useAuth = () => {
     const dispatch = useDispatch<any>();
     const authState = useSelector((state: RootState) => state.auth);
 
-    // Регистрация на потребител
+    // User registration
     const register = useCallback(
         async (userData: RegisterRequest) => {
             return await dispatch(registerUserAction(userData));
@@ -27,7 +27,7 @@ export const useAuth = () => {
         [dispatch]
     );
 
-    // Логин с Google
+    // Google login
     const getGoogleAuthUrl = useCallback(
         async (scopes: string[] = ['email']) => {
             return await dispatch(getGoogleAuthUrlAction(scopes));
@@ -35,7 +35,7 @@ export const useAuth = () => {
         [dispatch]
     );
 
-    // Обработка на callback от Google
+    // Handle Google callback
     const handleGoogleCallback = useCallback(
         async (callbackData: GoogleCallbackData) => {
             return await dispatch(handleGoogleCallbackAction(callbackData));
@@ -43,7 +43,7 @@ export const useAuth = () => {
         [dispatch]
     );
 
-    // Получаване на профил на потребител
+    // Get user profile
     const getUserProfile = useCallback(
         async () => {
             return await dispatch(getUserProfileAction());
@@ -51,7 +51,7 @@ export const useAuth = () => {
         [dispatch]
     );
 
-    // Изход от системата
+    // Logout
     const logout = useCallback(
         async () => {
             return await dispatch(logoutAction());
@@ -59,12 +59,12 @@ export const useAuth = () => {
         [dispatch]
     );
 
-    // Изчистване на грешки
+    // Clear errors
     const clearAuthError = useCallback(() => {
         dispatch(clearError());
     }, [dispatch]);
 
-    // Нулиране на статуса на регистрацията
+    // Reset registration status
     const resetRegStatus = useCallback(() => {
         dispatch(resetRegistrationStatus());
     }, [dispatch]);

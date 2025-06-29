@@ -3,12 +3,12 @@ import { RegisterForm } from '@/components/auth/RegisterForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Регистрация',
-    description: 'Създайте акаунт, за да използвате нашата платформа',
+    title: 'Registration',
+    description: 'Create an account to use our platform',
 };
 
 /**
- * Страница за регистрация на потребители
+ * Registration page
  */
 export default function RegisterPage() {
     return (

@@ -10,9 +10,9 @@ export class AuthService {
     } as const;
 
     /**
-     * Регистрира нов потребител
-     * @param userData данни за регистрация на потребител
-     * @returns данни за регистрирания потребител
+     * Registers a new user
+     * @param userData user registration data
+     * @returns registered user data
      */
     static async register(userData: RegisterRequest): Promise<RegisterResponse> {
         try {
