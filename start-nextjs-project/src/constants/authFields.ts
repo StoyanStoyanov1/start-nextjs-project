@@ -23,6 +23,24 @@ export const SIGNIN_FIELDS: AuthFieldConfig[] = [
   }
 ];
 
+export const EMAIL_VERIFICATION_FIELDS: AuthFieldConfig[] = [
+  {
+    name: 'email',
+    type: 'email',
+    label: 'Email Address',
+    placeholder: 'Enter your email address',
+    required: true,
+    validation: {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      custom: (value: string) => {
+        if (!value.trim()) return 'Email is required';
+        if (value.length > 254) return 'Email is too long';
+        return null;
+      }
+    }
+  }
+];
+
 export const SIGNUP_FIELDS: AuthFieldConfig[] = [
   {
     name: 'email',

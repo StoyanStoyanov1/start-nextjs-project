@@ -63,7 +63,12 @@ export default function SignUpPage() {
 
         {registrationStatus === 'success' && (
           <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-md mb-4">
-            Registration successful! Redirecting to login...
+            <p>Registration successful! Redirecting to login...</p>
+            <p className="mt-2">
+              <Link href="/auth/verify-email" className="text-blue-600 hover:text-blue-800">
+                Verify your email address
+              </Link> to activate your account.
+            </p>
           </div>
         )}
 

@@ -5,7 +5,8 @@ import {
     handleGoogleCallbackAction,
     getUserProfileAction,
     logoutAction,
-    registerUserAction
+    registerUserAction,
+    requestEmailVerificationAction
 } from '@/store/thunks/authThunks';
 
 const initialState: AuthState = {
@@ -15,7 +16,9 @@ const initialState: AuthState = {
     isAuthenticated: false,
     error: null,
     googleAuthUrl: null,
-    registrationStatus: 'idle'
+    registrationStatus: 'idle',
+    emailVerificationStatus: 'idle',
+    verificationMessage: null
 };
 
 const authSlice = createSlice({
@@ -46,6 +49,10 @@ const authSlice = createSlice({
         },
         resetRegistrationStatus: (state) => {
             state.registrationStatus = 'idle';
+        },
+        resetEmailVerificationStatus: (state) => {
+            state.emailVerificationStatus = 'idle';
+            state.verificationMessage = null;
         }
     },
     extraReducers: (builder) => {
@@ -139,8 +146,28 @@ const authSlice = createSlice({
                 state.registrationStatus = 'error';
                 state.error = action.payload;
             });
+
+        // Request Email Verification
+        builder
+            .addCase(requestEmailVerificationAction.pending, (state) => {
+                state.isLoading = true;
+                state.emailVerificationStatus = 'loading';
+                state.error = null;
+                state.verificationMessage = null;
+            })
+            .addCase(requestEmailVerificationAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.emailVerificationStatus = 'success';
+                state.verificationMessage = action.payload;
+                state.error = null;
+            })
+            .addCase(requestEmailVerificationAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.emailVerificationStatus = 'error';
+                state.error = action.payload;
+            });
     },
 });
 
-export const { clearError, setToken, clearAuth, initializeAuth, resetRegistrationStatus } = authSlice.actions;
+export const { clearError, setToken, clearAuth, initializeAuth, resetRegistrationStatus, resetEmailVerificationStatus } = authSlice.actions;
 export default authSlice.reducer;

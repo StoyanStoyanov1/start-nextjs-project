@@ -6,9 +6,10 @@ import {
     getGoogleAuthUrlAction,
     handleGoogleCallbackAction,
     getUserProfileAction,
-    logoutAction
+    logoutAction,
+    requestEmailVerificationAction
 } from '@/store/thunks/authThunks';
-import { clearError, resetRegistrationStatus } from '@/store/slices/authSlice';
+import { clearError, resetRegistrationStatus, resetEmailVerificationStatus } from '@/store/slices/authSlice';
 import type { RegisterRequest } from '@/types/register';
 import type { GoogleCallbackData } from '@/types/auth';
 
@@ -69,6 +70,19 @@ export const useAuth = () => {
         dispatch(resetRegistrationStatus());
     }, [dispatch]);
 
+    // Request email verification
+    const requestEmailVerification = useCallback(
+        async (email: string) => {
+            return await dispatch(requestEmailVerificationAction(email));
+        },
+        [dispatch]
+    );
+
+    // Reset email verification status
+    const resetEmailVerificationStatus = useCallback(() => {
+        dispatch(resetEmailVerificationStatus());
+    }, [dispatch]);
+
     return {
         ...authState,
         register,
@@ -77,6 +91,8 @@ export const useAuth = () => {
         getUserProfile,
         logout,
         clearAuthError,
-        resetRegStatus
+        resetRegStatus,
+        requestEmailVerification,
+        resetEmailVerificationStatus
     };
 };

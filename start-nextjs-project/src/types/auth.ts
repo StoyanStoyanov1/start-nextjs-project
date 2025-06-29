@@ -13,6 +13,8 @@ export interface AuthState {
     error: string | object | null;
     googleAuthUrl: string | null;
     registrationStatus: 'idle' | 'loading' | 'success' | 'error';
+    emailVerificationStatus: 'idle' | 'loading' | 'success' | 'error';
+    verificationMessage: string | null;
 }
 export interface AuthFieldConfig {
   name: string;
@@ -56,4 +58,16 @@ export interface GoogleCallbackData {
 export interface AuthResponse {
     user: User;
     token: string;
+}
+
+export interface EmailVerificationRequest {
+    email: string;
+}
+
+export interface EmailVerificationResponse {
+    message: string;
+}
+
+export interface IEmailVerificationService {
+    requestVerifyToken(email: string): Promise<string>;
 }
