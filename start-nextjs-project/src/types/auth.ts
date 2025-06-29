@@ -42,6 +42,7 @@ export interface AuthFormProps {
   subtitle?: string;
   children?: React.ReactNode;
   className?: string;
+  isLoading?: boolean;
 }
 
 export interface AuthFormValidationErrors {

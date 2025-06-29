@@ -12,15 +12,19 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   title,
   subtitle,
   children,
-  className = ''
+  className = '',
+  isLoading: externalLoading
 }) => {
   const {
     formData,
     errors,
-    isLoading,
+    isLoading: internalLoading,
     handleFieldChange,
     handleSubmit
   } = useAuthForm(fields);
+
+  // Use external loading state if provided, otherwise use internal loading state
+  const isLoading = externalLoading !== undefined ? externalLoading : internalLoading;
 
   const defaultSubmitText = mode === 'signin' ? 'Sign In' : 'Sign Up';
 

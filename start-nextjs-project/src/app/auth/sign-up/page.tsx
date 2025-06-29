@@ -1,62 +1,55 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { SignUpForm } from '@/components/auth/SignUpForm';
 import { AuthFormData } from '@/types/auth';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<string>('');
+  const { 
+    register, 
+    isLoading, 
+    error, 
+    registrationStatus, 
+    clearAuthError, 
+    resetRegStatus 
+  } = useAuth();
 
-  const handleSignUp = async (data: AuthFormData) => {
-    try {
-      setError('');
-      setSuccess('');
+  // Clear errors when component mounts
+  useEffect(() => {
+    clearAuthError();
+    resetRegStatus();
 
-      // Request to API endpoint for registration
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
+    return () => {
+      clearAuthError();
+      resetRegStatus();
+    };
+  }, [clearAuthError, resetRegStatus]);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'An error occurred during registration');
-      }
-
-      setSuccess('Registration successful! Redirecting to login...');
-
-      // Automatic login after successful registration
-      setTimeout(async () => {
-        const signInResult = await signIn('credentials', {
-          email: data.email,
-          password: data.password,
-          redirect: false,
-        });
-
-        if (signInResult?.ok) {
-          router.push('/dashboard');
-        } else {
-          router.push('/auth/sign-in');
-        }
+  // Redirect on successful registration
+  useEffect(() => {
+    if (registrationStatus === 'success') {
+      const timer = setTimeout(() => {
+        router.push('/auth/sign-in?registered=true');
       }, 2000);
 
-    } catch (error: any) {
-      console.error('Sign up error:', error);
-      setError(error.message || 'An error occurred during registration. Please try again.');
+      return () => clearTimeout(timer);
     }
+  }, [registrationStatus, router]);
+
+  const handleSignUp = async (data: AuthFormData) => {
+    // Call register action with required fields
+    const result = await register({
+      email: data.email,
+      password: data.password,
+      is_active: true,
+      is_superuser: false,
+      is_verified: false
+    });
   };
 
   return (
@@ -68,13 +61,13 @@ export default function SignUpPage() {
           </div>
         )}
 
-        {success && (
+        {registrationStatus === 'success' && (
           <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-md mb-4">
-            {success}
+            Registration successful! Redirecting to login...
           </div>
         )}
 
-        <SignUpForm onSubmit={handleSignUp}>
+        <SignUpForm onSubmit={handleSignUp} isLoading={isLoading}>
           <div className="mt-6 space-y-4">
             <div className="text-center">
               <Link 

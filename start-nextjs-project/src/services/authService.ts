@@ -3,8 +3,8 @@ import { RegisterRequest, RegisterResponse } from '@/types/register';
 
 export class AuthService {
     private static readonly ENDPOINTS = {
-        REGISTER: '/auth/sing-up',
-        LOGIN: '/auth/sing-in',
+        REGISTER: '/auth/sign-up',
+        LOGIN: '/auth/sign-in',
         PROFILE: '/auth/me',
         LOGOUT: '/auth/logout'
     } as const;

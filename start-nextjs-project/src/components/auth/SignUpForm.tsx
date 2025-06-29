@@ -7,12 +7,14 @@ interface SignUpFormProps {
   onSubmit: (data: AuthFormData) => Promise<void>;
   className?: string;
   children?: React.ReactNode;
+  isLoading?: boolean;
 }
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({
   onSubmit,
   className,
-  children
+  children,
+  isLoading
 }) => {
   const handleSubmit = async (data: AuthFormData) => {
     if (data.password !== data.confirmPassword) {
@@ -30,6 +32,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
       title="Sign Up"
       subtitle="Create your account"
       className={className}
+      isLoading={isLoading}
     >
       {children}
     </AuthForm>
