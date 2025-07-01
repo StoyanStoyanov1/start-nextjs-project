@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { EmailVerificationForm } from '@/components/auth/EmailVerificationForm';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 
 export default function EmailVerificationPage() {
   const {
@@ -35,7 +35,7 @@ export default function EmailVerificationPage() {
       <div className="w-full space-y-8">
         {error && (
           <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-md mb-4">
-            {error}
+            {typeof error === 'string' ? error : 'An error occurred'}
           </div>
         )}
 

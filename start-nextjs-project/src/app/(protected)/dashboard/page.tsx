@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -28,7 +28,7 @@ export default function DashboardPage() {
 
     const handleLogout = async () => {
         try {
-            await logout().unwrap();
+            await logout();
             router.push('/login');
         } catch (error) {
             console.error('Logout error:', error);

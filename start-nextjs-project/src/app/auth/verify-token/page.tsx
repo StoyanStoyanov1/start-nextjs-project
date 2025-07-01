@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 import { TokenVerificationForm } from '@/components/auth/TokenVerificationForm';
 import Link from 'next/link';
 
@@ -86,9 +86,11 @@ export default function TokenVerificationPage() {
         {/* Error Message */}
         {error && (
           <div className="max-w-md mx-auto bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-md">
-            {typeof error === 'object' 
-              ? (error.detail || JSON.stringify(error))
-              : error
+            {typeof error === 'object' && error !== null && 'detail' in error
+              ? (error as any).detail || JSON.stringify(error)
+              : typeof error === 'string' 
+                ? error 
+                : 'An error occurred'
             }
           </div>
         )}

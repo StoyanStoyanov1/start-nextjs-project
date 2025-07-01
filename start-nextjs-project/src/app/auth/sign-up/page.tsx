@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { SignUpForm } from '@/components/auth/SignUpForm';
 import { AuthFormData } from '@/types/auth';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -57,7 +57,7 @@ export default function SignUpPage() {
       <div className="w-full space-y-8">
         {error && (
           <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-md mb-4">
-            {error}
+            {typeof error === 'string' ? error : 'An error occurred'}
           </div>
         )}
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 
 interface GoogleLoginButtonProps {
     label?: string;
@@ -39,7 +39,8 @@ export const GoogleLoginButton = ({
             }
         } catch (err) {
             console.error('Error:', err);
-            onError?.(error || 'An error occurred while trying to sign in with Google');
+            const errorMessage = typeof error === 'string' ? error : 'An error occurred while trying to sign in with Google';
+            onError?.(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -47,7 +48,8 @@ export const GoogleLoginButton = ({
 
     useEffect(() => {
         if (error && onError) {
-            onError(error);
+            const errorMessage = typeof error === 'string' ? error : 'An error occurred';
+            onError(errorMessage);
         }
     }, [error, onError]);
 
@@ -75,7 +77,9 @@ export const GoogleLoginButton = ({
                 <span>{loading ? 'Loading...' : label}</span>
             </button>
             {showErrorMessage && error && (
-                <p className="mt-2 text-sm text-red-600">{error}</p>
+                <p className="mt-2 text-sm text-red-600">
+                    {typeof error === 'string' ? error : 'An error occurred'}
+                </p>
             )}
         </div>
     );
