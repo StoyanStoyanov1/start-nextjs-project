@@ -14,22 +14,22 @@ export const useAuthForm = (fields: AuthFieldConfig[], initialData?: AuthFormDat
 
   const validateField = useCallback((field: AuthFieldConfig, value: string): string | null => {
     if (field.required && !value.trim()) {
-      return `${field.label} е задължително поле`;
+      return `${field.label} is required`;
     }
 
     if (field.validation) {
       const { minLength, maxLength, pattern, custom } = field.validation;
 
       if (minLength && value.length < minLength) {
-        return `${field.label} трябва да бъде поне ${minLength} символа`;
+        return `${field.label} must be at least ${minLength} characters`;
       }
 
       if (maxLength && value.length > maxLength) {
-        return `${field.label} не може да бъде повече от ${maxLength} символа`;
+        return `${field.label} cannot be more than ${maxLength} characters`;
       }
 
       if (pattern && !pattern.test(value)) {
-        return `${field.label} има невалиден формат`;
+        return `${field.label} has invalid format`;
       }
 
       if (custom) {
