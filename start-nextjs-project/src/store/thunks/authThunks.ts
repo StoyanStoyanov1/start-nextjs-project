@@ -45,11 +45,7 @@ export const handleGoogleCallbackAction = createAsyncThunk<
 
             const { user, token } = response.data;
 
-            // Store token in localStorage
-            if (token) {
-                localStorage.setItem('authToken', token);
-            }
-
+            // localStorage операцията сега се случва в middleware
             return { user, token };
         } catch (error: any) {
             return rejectWithValue(
@@ -82,11 +78,10 @@ export const logoutAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             await api.post(Urls.auth.logout);
-            localStorage.removeItem('authToken');
+            // localStorage операцията сега се случва в middleware
             return true;
         } catch (error: any) {
-            // Even if API call fails, remove token locally
-            localStorage.removeItem('authToken');
+            // localStorage операцията сега се случва в middleware
             return rejectWithValue(
                 error.response?.data ||
                 error.message ||

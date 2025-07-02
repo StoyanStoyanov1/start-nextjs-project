@@ -9,12 +9,16 @@ import {
     requestEmailVerificationAction,
     verifyTokenAction
 } from '@/store/thunks/authThunks';
+import { initializeAuthFromStorage } from '@/store/middleware/localStorageMiddleware';
+
+// Инициализираме state от localStorage (само при client-side)
+const storageData = initializeAuthFromStorage();
 
 const initialState: AuthState = {
     user: null,
-    token: null,
+    token: storageData.token,
     isLoading: false,
-    isAuthenticated: false,
+    isAuthenticated: storageData.isAuthenticated,
     error: null,
     googleAuthUrl: null,
     registrationStatus: 'idle',
@@ -34,20 +38,22 @@ const authSlice = createSlice({
         setToken: (state, action: PayloadAction<string>) => {
             state.token = action.payload;
             state.isAuthenticated = true;
-            localStorage.setItem('authToken', action.payload);
+            // localStorage операцията се случва в middleware
         },
         clearAuth: (state) => {
             state.user = null;
             state.token = null;
             state.isAuthenticated = false;
             state.error = null;
-            localStorage.removeItem('authToken');
+            // localStorage операцията се случва в middleware
         },
         initializeAuth: (state) => {
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                state.token = token;
-                state.isAuthenticated = true;
+            // Вече не четем директно от localStorage тук
+            // Инициализацията се случва при създаване на initialState
+            const storageData = initializeAuthFromStorage();
+            if (storageData.token) {
+                state.token = storageData.token;
+                state.isAuthenticated = storageData.isAuthenticated;
             }
         },
         resetRegistrationStatus: (state) => {
@@ -78,7 +84,7 @@ const authSlice = createSlice({
             })
             .addCase(getGoogleAuthUrlAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload;
+                state.error = action.payload || 'An error occurred';
             });
 
         // Handle Google Callback
@@ -93,10 +99,11 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 state.error = null;
+                // localStorage операцията се случва в middleware
             })
             .addCase(handleGoogleCallbackAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload;
+                state.error = action.payload || 'Google authentication failed';
                 state.isAuthenticated = false;
             });
 
@@ -112,7 +119,7 @@ const authSlice = createSlice({
             })
             .addCase(getUserProfileAction.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload;
+                state.error = action.payload || 'Failed to get user profile';
             });
 
         // Logout
@@ -126,6 +133,7 @@ const authSlice = createSlice({
                 state.token = null;
                 state.isAuthenticated = false;
                 state.error = null;
+                // localStorage операцията се случва в middleware
             })
             .addCase(logoutAction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -134,11 +142,12 @@ const authSlice = createSlice({
                 state.token = null;
                 state.isAuthenticated = false;
                 // Store the error
-                state.error = action.payload;
+                state.error = action.payload || 'Logout failed';
+                // localStorage операцията се случва в middleware
             });
 
-                    // Register User
-                    builder
+        // Register User
+        builder
             .addCase(registerUserAction.pending, (state) => {
                 state.isLoading = true;
                 state.registrationStatus = 'loading';
@@ -154,7 +163,7 @@ const authSlice = createSlice({
             .addCase(registerUserAction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.registrationStatus = 'error';
-                state.error = action.payload;
+                state.error = action.payload || 'Registration failed';
             });
 
         // Request Email Verification
@@ -174,7 +183,7 @@ const authSlice = createSlice({
             .addCase(requestEmailVerificationAction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.emailVerificationStatus = 'error';
-                state.error = action.payload;
+                state.error = action.payload || 'Email verification failed';
             });
 
         // Verify Token
@@ -197,7 +206,7 @@ const authSlice = createSlice({
             .addCase(verifyTokenAction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.tokenVerificationStatus = 'error';
-                state.error = action.payload;
+                state.error = action.payload || 'Token verification failed';
             });
     },
 });
